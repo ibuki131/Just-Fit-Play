@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カレンダー</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    #calendar {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    button {
+        width: auto;
+        height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>申し込みカレンダー</h2>
+  <div id="calendar"></div>
+  <button onclick="clearApplications();">初期化</button>
+  <button class="btn" onclick="location.href='index(ホーム).html'">ホームページへ戻る</button>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendar');
+
+      // localStorage から申し込みデータを取得
+      const applications = JSON.parse(localStorage.getItem("applications")) || [];
+
+      // FullCalendar 用の形式に変換
+      const events = applications.map(app => ({
+        title: `${app.sport}（${app.level}）`,
+        start: app.time,
+        extendedProps: {
+          location: app.location,
+          fee: app.fee
+        }
+      }));
+
+      // カレンダー初期化
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'ja',
+        events: events,
+        eventClick: function(info) {
+          const loc = info.event.extendedProps.location;
+          const fee = info.event.extendedProps.fee;
+          alert(`${info.event.title}\n場所: ${loc}\n参加費: ${fee}円`);
+        }
+      });
+
+      calendar.render();
+    });
+    function clearApplications() {
+  const confirmDelete = confirm("ローカルストレージの申し込みデータを全て削除します。よろしいですか？");
+  if (confirmDelete) {
+    localStorage.removeItem("applications");
+    alert("申し込みデータを削除しました！");
+    // ページをリロードしてもOKなら以下追加
+    // location.reload();
+  }
+}
+  </script>
+
+</body>
+</html>
