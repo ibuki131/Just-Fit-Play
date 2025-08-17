@@ -1,0 +1,13 @@
+body {
+display: flex;
+flex-direction: column;
+}
+h2 {
+    margin: 20px;
+    text-align: center;
+}
+button {
+    width: auto;
+    height: auto;
+}
+

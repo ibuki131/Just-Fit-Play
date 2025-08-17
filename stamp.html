@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スタンプカード</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+        }
+        .stamp-card {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            gap: 10px;
+            justify-content: center;
+            margin: 20px;
+        }
+        .stamp {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background-color: white;
+            cursor: default; /* クリックできないように */
+        }
+        .stamped {
+            background-color: #ffcc00;
+        }
+        .message {
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>スタンプカード</h2>
+    <div class="stamp-card" id="stampCard"></div>
+
+    <p class="message" id="rewardMessage">🎉 特典ゲット！ 🎉</p>
+    <button onclick="resetStamps()">リセット</button>
+    <button class="btn" onclick="location.href='index(ホーム).html'">ホームページへ戻る</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const stampContainer = document.getElementById("stampCard");
+            let stamps = JSON.parse(localStorage.getItem("stamps")) || Array(10).fill(false);
+
+            for (let i = 0; i < 10; i++) {
+                let stamp = document.createElement("div");
+                stamp.classList.add("stamp");
+                stamp.innerHTML = "★";
+
+                if (stamps[i]) {
+                    stamp.classList.add("stamped");
+                }
+
+                stampContainer.appendChild(stamp);
+            }
+
+            checkCompletion();
+        });
+
+        function checkCompletion() {
+            let stamps = JSON.parse(localStorage.getItem("stamps")) || [];
+            if (stamps.every(stamp => stamp)) {
+                document.getElementById("rewardMessage").style.display = "block";
+            }
+        }
+
+        function resetStamps() {
+            localStorage.removeItem("stamps");
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>
+
+</html>
+
