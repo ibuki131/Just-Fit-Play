@@ -1,8 +1,5 @@
 {
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/index(ホーム).html"
-    }
-  ]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "source": "/feedback/:id",
+  "destination": "/api/feedback/:id"
 }
